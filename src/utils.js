@@ -105,5 +105,74 @@ export const deleteStay = (stayId) => {
     });
 }; 
 
+export const bookStay = (data) => {
+    const authToken = localStorage.getItem("authToken");
+    const bookStayUrl = `${domain}/reservations`;
+
+    return fetch(bookStayUrl, {
+        method: "POST", 
+        headers: {
+            Authorization: `Bearer ${authToken}`, 
+            "Content-Type": "application/json", 
+        }, 
+        body: JSON.stringify(data), 
+    }).then((response) => {
+        if(response.status !== 200) {
+            throw Error("Fail to book reservation");
+        }
+    });
+};
+
+export const cancelReservation = (reservationId) => {
+    const authToken = localStorage.getItem("authToken");
+    const cancelReservationUrl = `${domain}/reservations/${reservationId}`;
+
+    return fetch(cancelReservationUrl, {
+        method: "DELETE", 
+        headers: {
+            Authorization: `Bearer ${authToken}`, 
+        }, 
+    }).then((response) => {
+        if(response.status !== 200) {
+            throw Error("Fail to cancel reservation");
+        }
+    });
+};
+
+export const getReservationsByStay = (stayId) => {
+    const authToken = localStorage.getItem("authToken");
+    const getReservationsByStayUrl = `${domain}/stays/reservations/${stayId}`;
+
+    return fetch(getReservationsByStayUrl, {
+        headers: {
+            Authorization: `Bearer ${authToken}`, 
+        }, 
+    }).then((response) => {
+        if(response.status !== 200) {
+            throw Error("Fail to get reservations by stay");
+        }
+        return response.json();
+    });
+};
+
+export const uploadStay = (data) => {
+    const authToken = localStorage.getItem("authToken");
+    const uploadStayUrl = `${domain}/stays`;
+
+    return fetch(uploadStayUrl, {
+        method: "POST", 
+        headers: {
+            Authorization: `Bearer ${authToken}`, 
+        }, 
+        body: data, 
+    }).then((response) => {
+        if(response.status !== 200) {
+            throw Error("Fail to upload stay");
+        }
+    });
+};
+
+
+
 
 
