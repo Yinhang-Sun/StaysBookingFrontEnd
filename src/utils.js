@@ -33,5 +33,37 @@ export const register = (credential, asHost) => {
     });
 };
 
+export const getReservations = () => {
+    const authToken = localStorage.getItem("authToken");
+    const listReservationsUrl = `${domain}/reservations`;
 
+    return fetch(listReservationsUrl, {
+        headers: {
+            Authorization: `Bearer ${authToken}`, 
+        }, 
+    }).then((response) => {
+        if(response.status !== 200) {
+            throw Error("Fail to get reservation list");
+        }
+
+        return response.json();
+    });
+};
+
+export const getStaysByHost = () => {
+    const authToken = localStorage.getItem("authToken");
+    const listStaysUrl = `${domain}/stays/`;
+
+    return fetch(listStaysUrl, {
+        headers: {
+            Authorization: `Bearer ${authToken}`, 
+        }, 
+    }).then((response) => {
+        if(response.status !== 200) {
+            throw Error("Fail to get stay list");
+        }
+
+        return response.json();
+    });
+}; 
 
