@@ -17,7 +17,7 @@ import {
 } from "@ant-design/icons";
 import Text from "antd/lib/typography/Text";
 import React from "react";
-import { getStaysByHost } from "../utils";
+import { deleteStay, getStaysByHost } from "../utils";
 
 const { TabPane } = Tabs;
 
@@ -81,6 +81,48 @@ export class StayDetailInfoButton extends React.Component {
 }
 
 
+class RemoveStayButton extends React.Component {
+    state = {
+        loading: false,
+    };
+
+
+    handleRemoveStay = async () => {
+        const { stay, onRemoveSuccess } = this.props;
+        this.setState({
+            loading: true,
+        });
+
+
+        try {
+            await deleteStay(stay.id);
+            onRemoveSuccess();
+        } catch (error) {
+            message.error(error.message);
+        } finally {
+            this.setState({
+                loading: false,
+            });
+        }
+    };
+
+
+    render() {
+        return (
+            <Button
+                loading={this.state.loading}
+                onClick={this.handleRemoveStay}
+                danger={true}
+                shape="round"
+                type="primary"
+            >
+                Remove Stay
+            </Button>
+        );
+    }
+}
+
+
 class MyStays extends React.Component {
     state = {
         loading: false,
@@ -141,7 +183,7 @@ class MyStays extends React.Component {
                                 </div>
                             }
                             actions={[]}
-                            extra={null}
+                            extra={<RemoveStayButton stay={item} onRemoveSuccess={this.loadData} />}
                         >
                             {
                                 <Carousel
