@@ -329,7 +329,7 @@ class HostHomePage extends React.Component {
                     <MyStays />
                 </TabPane>
                 <TabPane tab="Upload Stay" key="2">
-                    <div>Upload Stays</div>
+                    <UploadStay />
                 </TabPane>
             </Tabs>
         );
